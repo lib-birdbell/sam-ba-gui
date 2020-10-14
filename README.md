@@ -10,9 +10,13 @@ It is made in C#.
 <Test environment>
 
 CPU : SAMA5D2
+
 MEMORY : NAND with 2bit ecc support.
+
 HOST : Windows 10
+
 SAM-BA : 3.2.1
+
 .NET Framework : 4.0
 
 <Necessary>
