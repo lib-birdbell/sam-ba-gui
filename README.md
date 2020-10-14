@@ -49,8 +49,8 @@ Xml file format is as follows.
 
 <p>
 ==================================================
-<NAND>
-	<MTD>
+\<NAND\>
+	\<MTD\>
 		<name>bootstrap</name>
 		<address>0x00000000</address>
 		<size>0x00040000</size>
