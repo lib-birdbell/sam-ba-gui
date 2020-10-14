@@ -2,7 +2,7 @@ sam-ba(not samba) GUI for windows
 
 
 
-<Introduce>
+-Introduce
 SAM-BA software provides an open set of tools for in-system programming of internal and external memories connected to MICROCHIPS MCUs and MPUs.
 
 This program supports the programming in a GUI environment.
@@ -10,7 +10,7 @@ This program supports the programming in a GUI environment.
 It is made in C#.
 
 
-<Test environment>
+-Test environment
 
 CPU : SAMA5D2
 
@@ -22,14 +22,15 @@ SAM-BA : 3.2.1
 
 .NET Framework : 4.0
 
-<Necessary>
+
+-Necessary
 	
 download sam-ba3.2.1 below link
 
 https://github.com/atmelcorp/sam-ba/releases/tag/v3.2.1
 
 
-<How to compile>
+-How to compile
 	
 Double click "compile.bat"
 
@@ -40,12 +41,13 @@ Double click "compile.bat"
 *If also didn't work, modify csc directory path in "compile.bat" file.
 
 
-<How to use>
+-How to use
 	
 Prepare xml file.
 
 Xml file format is as follows.
 
+<p>
 ==================================================
 <NAND>
 	<MTD>
@@ -56,6 +58,8 @@ Xml file format is as follows.
 	</MTD>
 </NAND>
 ==================================================
+</p>
+
 (The sample file exists as "myir.xml")
 
 Double click "AtmelNandFlash.exe" file.
@@ -67,7 +71,7 @@ Finally. select the desired checkbox, and click [PROGRAM] button to program.
 [REASE] button delete whole nandflash.
 
 
-<To do>
+-To do
 	
 cannot change Header.
 
