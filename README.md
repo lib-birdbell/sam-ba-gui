@@ -47,16 +47,16 @@ Prepare xml file.
 
 Xml file format is as follows.
 
-==================================================
-&lt;NAND\&gt;
-	&lt;MTD\&gt;
-		&lt;name&gt;bootstrap&lt;/name&gt;
-		&lt;address&gt;0x00000000&lt;/address&gt;
-		&lt;size&gt;0x00040000&lt;/size&gt;
-		&lt;file&gt;MYIR-nandflashboot-uboot-3.10.0-rc3.bin&lt;/file&gt;
-	&lt;/MTD&gt;
-&lt;/NAND>
-==================================================
+==============================<br>
+&#60;NAND&#62;<br>
+&emsp;	&#60;MTD&#62;<br>
+&emsp;&emsp;		&#60;name&#62;bootstrap&#60;/name&#62;<br>
+&emsp;&emsp;		&#60;address&#62;0x00000000&#60;/address&#62;<br>
+&emsp;&emsp;		&#60;size&#62;0x00040000&#60;/size&#62;<br>
+&emsp;&emsp;		&#60;file&#62;MYIR-nandflashboot-uboot-3.10.0-rc3.bin&#60;/file&#62;<br>
+&emsp;	&#60;/MTD&#62;<br>
+&#60;/NAND&#62;<br>
+==============================<br>
 
 (The sample file exists as "myir.xml")
 
