@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<NAND>
+	<MTD>
+		<name>bootstrap</name>
+		<address>0x00000000</address>
+		<size>0x00040000</size>
+		<file>MYIR-nandflashboot-uboot-3.10.0-rc3.bin</file>
+	</MTD>
+	<MTD>
+		<name>uboot</name>
+		<address>0x00040000</address>
+		<size>0x00080000</size>
+		<file>u-boot.bin</file>
+	</MTD>
+	<MTD>
+		<name>device tree</name>
+		<address>0x00180000</address>
+		<size>0x00080000</size>
+		<file>myd_ja5d2x.dtb</file>
+	</MTD>
+	<MTD>
+		<name>kernel</name>
+		<address>0x00200000</address>
+		<size>0x00600000</size>
+		<file>zImage</file>
+	</MTD>
+	<MTD>
+		<name>rootfs</name>
+		<address>0x00800000</address>
+		<size>0x0F800000</size>
+		<file>rootfs_180609_Debug.bin</file>
+	</MTD>
+</NAND>
