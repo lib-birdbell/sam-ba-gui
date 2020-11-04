@@ -1,16 +1,19 @@
 sam-ba(not samba) GUI for windows
 
+<br>
+-20201104<br>
+NAND header updated.
 
-
--Introduce
+<br>
+-Introduce<br>
 SAM-BA software provides an open set of tools for in-system programming of internal and external memories connected to MICROCHIPS MCUs and MPUs.
 
 This program supports the programming in a GUI environment.
 
 It is made in C#.
 
-
--Test environment
+<br>
+-Test environment<br>
 
 CPU : SAMA5D2
 
@@ -22,15 +25,15 @@ SAM-BA : 3.2.1
 
 .NET Framework : 4.0
 
-
--Necessary
+<br>
+-Necessary<br>
 	
 download sam-ba3.2.1 below link
 
 https://github.com/atmelcorp/sam-ba/releases/tag/v3.2.1
 
-
--How to compile
+<br>
+-How to compile<br>
 	
 Double click "compile.bat"
 
@@ -40,8 +43,8 @@ Double click "compile.bat"
 
 *If also didn't work, modify csc directory path in "compile.bat" file.
 
-
--How to use
+<br>
+-How to use<br>
 	
 Prepare xml file.
 
@@ -55,6 +58,9 @@ Xml file format is as follows.
 &emsp;&emsp;		&#60;size&#62;0x00040000&#60;/size&#62;<br>
 &emsp;&emsp;		&#60;file&#62;MYIR-nandflashboot-uboot-3.10.0-rc3.bin&#60;/file&#62;<br>
 &emsp;	&#60;/MTD&#62;<br>
+&emsp;	&#60;HEADER&#62;<br>
+&emsp;&emsp;0xc0c00405<br>
+&emsp;	&#60;/HEADER&#62;<br>
 &#60;/NAND&#62;<br>
 ==============================<br>
 
@@ -68,9 +74,7 @@ Finally. select the desired checkbox, and click [PROGRAM] button to program.
 
 [REASE] button delete whole nandflash.
 
-
--To do
+<br>
+-To do<br>
 	
-cannot change Header.
-
 cannot save and modifing.
