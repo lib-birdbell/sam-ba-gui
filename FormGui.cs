@@ -1,4 +1,4 @@
-// ÆÄÀÏ FormGui.cs
+// ï¿½ï¿½ï¿½ï¿½ FormGui.cs
 using System;
 using System.Collections.Generic;
 //using System.ComponentModel;
@@ -26,7 +26,9 @@ namespace WindowsFormsApplication
 		private List<TextBox> lTextBoxAddress = new List<TextBox>();
 		private List<TextBox> lTextBoxSize = new List<TextBox>();
 		private List<TextBox> lTextBoxFile = new List<TextBox>();
+		private FormHeader dlg = new FormHeader();
 		private int mtdCount;
+		private uint nNandHeader;
 		
         public FormGui()
         {
@@ -53,7 +55,9 @@ namespace WindowsFormsApplication
 			string batFile = Application.StartupPath + "\\program.bat";
 			//string executeText = "echo \"tetest\"\r\nPAUSE";
 			//string header = "import SAMBA 3.2\r\nimport SAMBA.Connection.Serial 3.2\r\nimport SAMBA.Device.SAMA5D2 3.2\r\n\r\nSerialConnection {\r\n	device: SAMA5D2 {\r\n		config {\r\n			nandflash {\r\n				ioset: 2\r\n				busWidth: 8\r\n				header: 0xc0902405\r\n			}\r\n		}\r\n	}\r\n\r\n	onConnectionOpened: {\r\n		////////////////////	init	////////////////////\r\n		// initialize NAND flash applet\r\n		initializeApplet(\"nandflash\")\r\n";
-			string header = "import SAMBA 3.2\r\nimport SAMBA.Connection.Serial 3.2\r\nimport SAMBA.Device.SAMA5D2 3.2\r\n\r\nSerialConnection {\r\n	device: SAMA5D2 {\r\n		config {\r\n			nandflash {\r\n				ioset: 2\r\n				busWidth: 8\r\n				header: 0xc0c00405\r\n			}\r\n		}\r\n	}\r\n\r\n	onConnectionOpened: {\r\n		////////////////////	init	////////////////////\r\n		// initialize NAND flash applet\r\n		initializeApplet(\"nandflash\")\r\n";
+			string header = "import SAMBA 3.2\r\nimport SAMBA.Connection.Serial 3.2\r\nimport SAMBA.Device.SAMA5D2 3.2\r\n\r\nSerialConnection {\r\n	device: SAMA5D2 {\r\n		config {\r\n			nandflash {\r\n				ioset: 2\r\n				busWidth: 8\r\n				header: 0x";
+			header += nNandHeader.ToString("X8");
+			header += "\r\n			}\r\n		}\r\n	}\r\n\r\n	onConnectionOpened: {\r\n		////////////////////	init	////////////////////\r\n		// initialize NAND flash applet\r\n		initializeApplet(\"nandflash\")\r\n";
 			string textProgram = "";
 			string tail = "	}\r\n}";
 
@@ -112,6 +116,7 @@ namespace WindowsFormsApplication
 
 			// Run program
 			Process.Start(Application.StartupPath + "\\program.bat");
+
 			/*
 			//using (StreamWriter outputFile = new StreamWrite(Application.StartupPath + "\\nand-usb.qml"){
 			//StreamWriter outputfile = new StreamWriter(new FileStream(Application.StartupPath + "\\program.bat"), fileMode.Create);
@@ -156,7 +161,7 @@ namespace WindowsFormsApplication
 				delList();
 
 				while( (xmlNand != null) && ( xmlNand.IsEmpty == false) ){
-					string attr = xmlNand.GetAttribute("MTD");
+					string nodeName = xmlNand.Name;
 					string name = "";
 					string address = "";
 					string size = "";
@@ -164,62 +169,92 @@ namespace WindowsFormsApplication
 
 					XmlNodeList nlChilds = xmlNand.ChildNodes;
 
-					foreach(XmlElement eNode in nlChilds){
-						if(eNode.LocalName.ToLower().Contains("name") == true){
-							name = eNode.InnerText;
-						}
-						if(eNode.LocalName.ToLower().Contains("address") == true){
-							address = eNode.InnerText;
-						}
-						if(eNode.LocalName.ToLower().Contains("size") == true){
-							size = eNode.InnerText;
-						}
-						if(eNode.LocalName.ToLower().Contains("file") == true){
-							file = eNode.InnerText;
-						}
+					if(nodeName.Equals("MTD")){
+						foreach(XmlElement eNode in nlChilds){
+							if(eNode.LocalName.ToLower().Contains("name") == true){
+								name = eNode.InnerText;
+							}
+							if(eNode.LocalName.ToLower().Contains("address") == true){
+								address = eNode.InnerText;
+							}
+							if(eNode.LocalName.ToLower().Contains("size") == true){
+								size = eNode.InnerText;
+							}
+							if(eNode.LocalName.ToLower().Contains("file") == true){
+								file = eNode.InnerText;
+							}
+						}	
+
+						// Add check box
+						lCheckBox.Add(new CheckBox());
+						lCheckBox[mtdCount].Location = new System.Drawing.Point(10, 60 + (mtdCount*20));
+						lCheckBox[mtdCount].Name = "writeEnable";
+						lCheckBox[mtdCount].Size = new System.Drawing.Size(90, 20);
+						lCheckBox[mtdCount].TabIndex = 4+(mtdCount*4)+0;
+						lCheckBox[mtdCount].Text = name;
+						this.Controls.Add(lCheckBox[mtdCount]);
+
+						// Add address
+						lTextBoxAddress.Add(new TextBox());
+						lTextBoxAddress[mtdCount].Location = new System.Drawing.Point(110, 60 + (mtdCount*20));
+						lTextBoxAddress[mtdCount].Name = "textAddress";
+						lTextBoxAddress[mtdCount].Size = new System.Drawing.Size(90, 20);
+						lTextBoxAddress[mtdCount].TabIndex = 4+(mtdCount*4)+1;
+						lTextBoxAddress[mtdCount].Text = address;
+						this.Controls.Add(lTextBoxAddress[mtdCount]);
+
+						// Add size
+						lTextBoxSize.Add(new TextBox());
+						lTextBoxSize[mtdCount].Location = new System.Drawing.Point(200, 60 + (mtdCount*20));
+						lTextBoxSize[mtdCount].Name = "textSize";
+						lTextBoxSize[mtdCount].Size = new System.Drawing.Size(90, 20);
+						lTextBoxSize[mtdCount].TabIndex = 4+(mtdCount*4)+1;
+						lTextBoxSize[mtdCount].Text = size;
+						this.Controls.Add(lTextBoxSize[mtdCount]);
+
+						// Add file
+						lTextBoxFile.Add(new TextBox());
+						lTextBoxFile[mtdCount].Location = new System.Drawing.Point(290, 60 + (mtdCount*20));
+						lTextBoxFile[mtdCount].Name = "textSize";
+						lTextBoxFile[mtdCount].Size = new System.Drawing.Size(300, 20);
+						lTextBoxFile[mtdCount].TabIndex = 4+(mtdCount*4)+1;
+						lTextBoxFile[mtdCount].Text = file;
+						this.Controls.Add(lTextBoxFile[mtdCount]);
+
+						//Console.WriteLine(name + address + size + file);
+						mtdCount++;
+					}else if(nodeName.Equals("HEADER")){
+						// "0x00000000" format string to uint
+						string strNandHeader = xmlNand.InnerText.Replace("0x","");
+						nNandHeader = UInt32.Parse(strNandHeader, System.Globalization.NumberStyles.HexNumber);
+						//nNandHeader = UInt32.Parse(xmlNand.InnerText, System.Globalization.NumberStyles.HexNumber);
+						//MessageBox.Show(nNandHeader.ToString());
+						this.labelHeaderValue.Text = nNandHeader.ToString("X8");
+						//deprecated
+						//nNandHeader = Convert.ToUInt32(test, 16);
+						//uint test = 100;
+						//MessageBox.Show("=" + test.ToString());
 					}
-
-					// Add check box
-					lCheckBox.Add(new CheckBox());
-					lCheckBox[mtdCount].Location = new System.Drawing.Point(10, 60 + (mtdCount*20));
-					lCheckBox[mtdCount].Name = "writeEnable";
-					lCheckBox[mtdCount].Size = new System.Drawing.Size(90, 20);
-					lCheckBox[mtdCount].TabIndex = 4+(mtdCount*4)+0;
-					lCheckBox[mtdCount].Text = name;
-					this.Controls.Add(lCheckBox[mtdCount]);
-
-					// Add address
-					lTextBoxAddress.Add(new TextBox());
-					lTextBoxAddress[mtdCount].Location = new System.Drawing.Point(110, 60 + (mtdCount*20));
-					lTextBoxAddress[mtdCount].Name = "textAddress";
-					lTextBoxAddress[mtdCount].Size = new System.Drawing.Size(90, 20);
-					lTextBoxAddress[mtdCount].TabIndex = 4+(mtdCount*4)+1;
-					lTextBoxAddress[mtdCount].Text = address;
-					this.Controls.Add(lTextBoxAddress[mtdCount]);
-
-					// Add size
-					lTextBoxSize.Add(new TextBox());
-					lTextBoxSize[mtdCount].Location = new System.Drawing.Point(200, 60 + (mtdCount*20));
-					lTextBoxSize[mtdCount].Name = "textSize";
-					lTextBoxSize[mtdCount].Size = new System.Drawing.Size(90, 20);
-					lTextBoxSize[mtdCount].TabIndex = 4+(mtdCount*4)+1;
-					lTextBoxSize[mtdCount].Text = size;
-					this.Controls.Add(lTextBoxSize[mtdCount]);
-
-					// Add file
-					lTextBoxFile.Add(new TextBox());
-					lTextBoxFile[mtdCount].Location = new System.Drawing.Point(290, 60 + (mtdCount*20));
-					lTextBoxFile[mtdCount].Name = "textSize";
-					lTextBoxFile[mtdCount].Size = new System.Drawing.Size(300, 20);
-					lTextBoxFile[mtdCount].TabIndex = 4+(mtdCount*4)+1;
-					lTextBoxFile[mtdCount].Text = file;
-					this.Controls.Add(lTextBoxFile[mtdCount]);
-
-					//Console.WriteLine(name + address + size + file);
-					mtdCount++;
-
 					xmlNand = (XmlElement)xmlNand.NextSibling;
 				}
+
+/*
+				// Read NAND header
+				while( (xmlNand != null) && ( xmlNand.IsEmpty == false) ){
+					string attr = xmlNand.GetAttribute("HEADER");
+					string value = "";
+
+					XmlNodeList nlChilds = xmlNand.ChildNodes;
+
+					foreach(XmlElement eNode in nlChilds){
+						if(eNode.LocalName.ToLower().Contains("value") == true){
+							value = eNode.InnerText;
+							//this.labelHeaderValue.Text = value;
+							this.labelHeaderValue.Text = "1234ABCD";
+							//nNandHeader
+						}
+					}
+				}*/
 			}else{
 				return;
 			}
@@ -243,7 +278,9 @@ namespace WindowsFormsApplication
 		}
 
 		private void buttonSave_Click(object sender, EventArgs e){
-			MessageBox.Show("Hello wellcome hell! SAVE");
+			MessageBox.Show("Hello please help me! SAVE");
+
+			/*
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.DefaultExt = "xml";
 			ofd.Filter = "xml files (*.xml)|*.xml";
@@ -252,7 +289,7 @@ namespace WindowsFormsApplication
 				string text = ofd.FileName;
 				string temp = "";
 
-				MessageBox.Show(text);
+				MessageBox.Show(text);*/
 /*
 				XmlTextReader reader = new XmlTextReader(text);
 				
@@ -272,8 +309,8 @@ namespace WindowsFormsApplication
 					}
 				}
 */
-				XmlDocument xml = new XmlDocument();
-				xml.Load(@text);
+				//XmlDocument xml = new XmlDocument();
+				//xml.Load(@text);
 				//xml.Load(@"E:\\DATA\\Product\\MS-281\\document\\MYD-JA5D2X\\download\\myir.xml");
 				//xml.Load(@"E:\DATA\Product\MS-281\document\MYD-JA5D2X\download\myir.xml");
 				/*
@@ -289,7 +326,7 @@ namespace WindowsFormsApplication
 
 				//XmlNodeList xmlList = xml.SelectNodes("NAND");
 
-				XmlElement nand = xml.DocumentElement;
+				/*XmlElement nand = xml.DocumentElement;
 				temp = nand.Name;		// TOP NAME
 				//Console.WriteLine(temp);
 				
@@ -315,7 +352,7 @@ namespace WindowsFormsApplication
 					}
 					
 					xmlNand = (XmlElement)xmlNand.NextSibling;
-				}
+				}*/
 				//XmlNodeList nlChilds = xmlNand.ChildNodes;
 				/*
 				for(int i=0;i<nlChilds.Count;i++){
@@ -339,8 +376,15 @@ namespace WindowsFormsApplication
 					temp = "";
 				}
 */
-				MessageBox.Show(text);
-			}
+				//MessageBox.Show(text);
+			//}
+		}
+		private void buttonHeader_Click(object sender, EventArgs e){
+			dlg.SetHeader(nNandHeader);
+			dlg.SetCheck(nNandHeader);
+			dlg.ShowDialog();
+			nNandHeader = dlg.GetHeader();
+			this.labelHeaderValue.Text = nNandHeader.ToString("X8");
 		}
     }
 }
@@ -353,6 +397,7 @@ namespace WindowsFormsApplication
     {
         private System.ComponentModel.IContainer components = null;
 		private Button buttonLoad;
+		private Label labelHeaderValue;
 
         protected override void Dispose(bool disposing)
         {
@@ -372,10 +417,14 @@ namespace WindowsFormsApplication
 			Button buttonErase = new Button();
 			Button buttonProgram = new Button();
 			Button buttonSave = new Button();
+			Button buttonHeader = new Button();
 			Label labelName = new Label();
 			Label labelAddress = new Label();
 			Label labelSize = new Label();
 			Label labelFile = new Label();
+			Label labelHeaderTag = new Label();
+			//Label labelHeaderValue = new Label();
+			this.labelHeaderValue = new System.Windows.Forms.Label();
 
 			this.SuspendLayout();
 
@@ -388,10 +437,13 @@ namespace WindowsFormsApplication
 			this.Controls.Add(buttonErase);
 			this.Controls.Add(buttonProgram);
 			this.Controls.Add(buttonSave);
+			this.Controls.Add(buttonHeader);
 			this.Controls.Add(labelName);
 			this.Controls.Add(labelAddress);
 			this.Controls.Add(labelSize);
 			this.Controls.Add(labelFile);
+			this.Controls.Add(labelHeaderTag);
+			this.Controls.Add(this.labelHeaderValue);
 
 			// Button [ERASE]
 			buttonErase.Location = new System.Drawing.Point(10, 10);
@@ -431,6 +483,15 @@ namespace WindowsFormsApplication
 			buttonSave.UseVisualStyleBackColor = true;
 			buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			buttonSave.Enabled = false;
+
+			// Button [HEADER]
+			buttonHeader.Location = new System.Drawing.Point(350, 10);
+			buttonHeader.Name = "buttonHeader";
+			buttonHeader.Size = new System.Drawing.Size(75, 23);
+			buttonHeader.TabIndex = 3;
+			buttonHeader.Text = "HEADER";
+			buttonHeader.UseVisualStyleBackColor = true;
+			buttonHeader.Click += new System.EventHandler(this.buttonHeader_Click);
 			
 			// Label
 			labelName.Location = new System.Drawing.Point(30, 40);
@@ -452,6 +513,18 @@ namespace WindowsFormsApplication
 			labelFile.Name = "labelFile";
 			labelFile.Size = new System.Drawing.Size(55, 20);
 			labelFile.Text = "FILE";
+
+			labelHeaderTag.Location = new System.Drawing.Point(20, 290);
+			labelHeaderTag.Name = "labelHeaderTag";
+			labelHeaderTag.Size = new System.Drawing.Size(90, 20);
+			labelHeaderTag.Text = "NAND header : ";
+
+			this.labelHeaderValue.Location = new System.Drawing.Point(110, 290);
+			this.labelHeaderValue.Name = "labelHeaderValue";
+			this.labelHeaderValue.Size = new System.Drawing.Size(75, 20);
+			//labelHeaderValue.Text = "0x00000000";
+			nNandHeader = 0;
+			this.labelHeaderValue.Text = nNandHeader.ToString("X8");
 			
 			this.ResumeLayout(false);
         }

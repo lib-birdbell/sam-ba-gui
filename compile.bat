@@ -1,2 +1,2 @@
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc FormGui.cs AtmelNandFlash.cs
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc FormGui.cs AtmelNandFlash.cs FormHeader.cs
 PAUSE

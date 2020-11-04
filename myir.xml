@@ -30,4 +30,7 @@
 		<size>0x0F800000</size>
 		<file>rootfs_180609_Debug.bin</file>
 	</MTD>
+	<HEADER>
+		0xc0c00405
+	</HEADER>
 </NAND>
