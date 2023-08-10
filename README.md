@@ -1,5 +1,7 @@
 sam-ba(not samba) GUI for windows
 
+![title](https://blogfiles.pstatic.net/MjAyMzA4MTBfMzIg/MDAxNjkxNjQwMjg1NDkw.kvdToc_GzDKyzBs2KcLU8M9_Z9T-f2dmhXY07HvxC0Ig.qR26dSsUWFxvuz-OVuoq8VSbE4PJW6BFRGYjNwBXRIEg.PNG.5boon/sam_ba_gui.png "image")
+
 <br>
 -20201104<br>
 NAND header updated.
